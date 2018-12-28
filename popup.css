@@ -1,0 +1,94 @@
+body {
+    width: 620px !important;
+    height: 520px !important;
+    min-height: 500px !important;
+    font-size: 13px !important;
+    overflow: auto !important;
+}
+
+button {
+    font-size: 13px !important;
+}
+
+#login-container {
+    width: 240px;
+    height: 78px;
+    padding: 20px !important;
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    margin: auto;
+    margin-bottom: auto !important;
+    display: none;
+}
+
+#loginButton {
+    width: 200px;
+}
+
+.menu-button {
+    padding: 5px;
+    margin: 0;
+}
+
+.menu-container {
+    display: inline-block;
+    float: right;
+    margin-top: 0;
+    margin-right: 30px;
+}
+
+#list-class {
+    background-color: #f1f1f1;
+    height: 472px;
+    width: 200px;
+    float: left;
+}
+
+#contents {
+    float:right;
+    width: 420px;
+    padding-left: 20px;
+    margin-top: 20px;
+}
+
+#list-class ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    width: 200px;
+}
+
+.classButton {
+    border: 0 !important;
+    width: 100%;
+    border-radius: 0 !important;
+    background-color: transparent;
+    height: 50px;
+}
+
+.classButton:hover {
+    background-color: #727272;
+    cursor: pointer;
+}
+
+#className {
+    height: 25px;
+    width: 300px;
+    font-size: 13px;
+}
+
+#items-new-class {
+    margin-top: 10px;
+    overflow: auto;
+    max-height: 240px;
+}
+
+.new-item {
+    height: 30px;
+    width: 150px;
+    display: inline;
+    margin-left: 10px;
+}

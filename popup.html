@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+  <meta charset=utf-8 />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Google Sign In in Chrome Extensions Example</title>
+
+  <script src="https://www.gstatic.com/firebasejs/5.7.1/firebase.js"></script> 
+  <script type='text/javascript' src='config.js'></script>
+
+  <link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
+  <script src="bootstrap/js/bootstrap.min.js"></script>
+
+  <link rel="stylesheet" href="popup.css">
+
+</head>
+<body>
+
+  <div id='login-container' class="shadow p-3 mb-5 bg-white rounded">
+    <button id="loginButton" type="button" class="btn btn-primary">Sign-in with Google</button>
+  </div>
+
+  <div id="contents-container">
+    <div id="title-container">
+      <nav class="navbar sticky-top navbar-light bg-light">
+        <h5 id="title">What grades do I need?</h5>
+        <div id="loginMenuContainer" class="btn-group" role="group" aria-label="Basic example">
+          <button id="addClassButton" type="button" class="btn btn-link menu-button">Add a new class</button>
+          <button id="logoutButton" type="button" class="btn btn-link menu-button">Sign out</button>
+        </div>
+      </nav>
+    </div>
+  
+    <div id="body-container">
+      <div id="list-class">
+        <ul id="listClassMenu"></ul>
+      </div>
+
+      <div id="contents">
+        <div id="addNewClassContents" style="display: none">
+          <h6>Add new Class</h6>
+          <input type="text" class="form-control" id="className" placeholder="Class Name">
+          <button id="addNewItem" style="margin-top: 10px;" type="button" class="btn btn-primary">Add new item to the syllabus</button>
+          <i id="weightInfo" style="display: none; margin-top: 10px;">
+            <strong>Weight: </strong> the weight of the assignment of the class. E.g. 10(%) <br>
+            <strong>Grade: </strong> 23/25 or 90/100
+          </i>
+          <div id="items-new-class"></div>
+          <i id="classNameWarning" style="display: none; color: red;">Please enter the class name.</i>
+          <i id="newClassWarning" style="display: none; color: red;">You haven't completed all the fields. Please fill in all the information.</i>
+          <div id="newClassButtonContainers" style="display: none; margin-top: 10px;">
+            <button id="submitNewClass" type="button" class="btn btn-primary">Submit</button>
+            <button id="cancelNewClass" type="button" class="btn btn-primary">Cancel</button>
+          </div>
+        </div>
+
+        <table id="classContents" class="table" style="display: none">
+            <thead class="thead-dark">
+                <tr>
+                  <th style="width: 140px" scope="col">Assignment name</th>
+                  <th style="width: 80px" scope="col">Weight</th>
+                  <th style="width: 90px" scope="col">Grade Got</th>
+                  <th style="width: 100px" scope="col">Grade Need</th>
+                </tr>
+              </thead>
+              <tbody id="classsBodyContents"></tbody>
+        </table>
+      </div>
+    </div>
+
+  </div>
+
+</body>
+</html>
+
+<script src="popup.js"></script>
