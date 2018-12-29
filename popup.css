@@ -10,6 +10,18 @@ button {
     font-size: 13px !important;
 }
 
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+    /* display: none; <- Crashes Chrome on hover */
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+input {
+    font-size: 13px !important;
+    height: 25px !important;
+}
+
 #login-container {
     width: 240px;
     height: 78px;
@@ -40,6 +52,10 @@ button {
     margin-right: 30px;
 }
 
+#title{
+    font-family: 'Gloria Hallelujah', cursive;
+}
+
 #list-class {
     background-color: #f1f1f1;
     height: 472px;
@@ -50,8 +66,6 @@ button {
 #contents {
     float:right;
     width: 420px;
-    padding-left: 20px;
-    margin-top: 20px;
 }
 
 #list-class ul {
@@ -75,9 +89,45 @@ button {
 }
 
 #className {
-    height: 25px;
-    width: 300px;
-    font-size: 13px;
+    width: 250px;
+    display: inline-block;
+    margin-left: 10px;
+}
+
+#targetScoreChange {
+    width: 50px;
+    display: inline-block;
+    margin-left: 10px;
+}
+
+#classNameChange
+{
+    width: 200px;
+    display: inline-block;
+    margin-left: 16px;
+}
+
+#targetScoreAdd {
+    width: 50px;
+    display: inline-block;
+    margin-left: 10px;
+}
+
+#classNameAdd
+{
+    width: 200px;
+    display: inline-block;
+    margin-left: 16px;
+}
+
+#targetScoreText {
+    display: inline-block;
+    margin-left: 10px;
+}
+
+#currentScore {
+    display: inline-block;
+    margin-left: 10px;
 }
 
 #items-new-class {
@@ -89,6 +139,55 @@ button {
 .new-item {
     height: 30px;
     width: 150px;
-    display: inline;
+    display: inline-block;
     margin-left: 10px;
+}
+
+.gradeInput {
+    width: 60px;
+    padding-right: 0;
+}
+
+.tableInput {
+    width: 100%;
+    margin-left: 0;
+}
+
+table {
+    width: 420px !important;
+}
+
+.numberTableInput {
+    width: 60px;
+    padding: 0;
+    display: inline-block;
+    text-align: center;
+}
+
+.deleteImg:hover {
+    cursor: pointer;
+}
+
+#addItemChanges:hover {
+    cursor: pointer;
+}
+
+#addItemAddClass {
+    cursor: pointer;
+}
+
+th {
+    height: 44px !important;
+}
+
+.edit-table-container {
+    max-height: 340px;
+    display: inline-block;
+    overflow-y: scroll;
+}
+
+.add-table-container {
+    max-height: 280px;
+    display: inline-block;
+    overflow-y: scroll;
 }

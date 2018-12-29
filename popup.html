@@ -9,6 +9,7 @@
   <script src="https://www.gstatic.com/firebasejs/5.7.1/firebase.js"></script> 
   <script type='text/javascript' src='config.js'></script>
 
+  <link href="https://fonts.googleapis.com/css?family=Gloria+Hallelujah" rel="stylesheet">
   <link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
   <script src="bootstrap/js/bootstrap.min.js"></script>
 
@@ -23,11 +24,13 @@
 
   <div id="contents-container">
     <div id="title-container">
-      <nav class="navbar sticky-top navbar-light bg-light">
-        <h5 id="title">What grades do I need?</h5>
+      <nav class="navbar sticky-top navbar-light bg-light" style="background-color: #eff1f2 !important">
+        <h5 id="title">
+            <img style="margin-right: 10px;" src="images/logo48.png">What grades do I need?
+        </h5>
         <div id="loginMenuContainer" class="btn-group" role="group" aria-label="Basic example">
-          <button id="addClassButton" type="button" class="btn btn-link menu-button">Add a new class</button>
-          <button id="logoutButton" type="button" class="btn btn-link menu-button">Sign out</button>
+          <button id="addClassButton" type="button" class="btn btn-outline-primary menu-button">Add a new class</button>
+          <button id="logoutButton" type="button" class="btn btn-outline-primary menu-button">Sign out</button>
         </div>
       </nav>
     </div>
@@ -38,9 +41,9 @@
       </div>
 
       <div id="contents">
-        <div id="addNewClassContents" style="display: none">
-          <h6>Add new Class</h6>
-          <input type="text" class="form-control" id="className" placeholder="Class Name">
+        <div id="addNewClassContents" style="display: none; margin-top: 20px;">
+          <!-- <h6>Add new Class</h6>
+          <label>Class Name: </label><input type="text" class="form-control" id="className"><br>
           <button id="addNewItem" style="margin-top: 10px;" type="button" class="btn btn-primary">Add new item to the syllabus</button>
           <i id="weightInfo" style="display: none; margin-top: 10px;">
             <strong>Weight: </strong> the weight of the assignment of the class. E.g. 10(%) <br>
@@ -52,20 +55,118 @@
           <div id="newClassButtonContainers" style="display: none; margin-top: 10px;">
             <button id="submitNewClass" type="button" class="btn btn-primary">Submit</button>
             <button id="cancelNewClass" type="button" class="btn btn-primary">Cancel</button>
+          </div>  -->
+
+          <div style="margin-top: 10px; margin-left: 20px;">
+            <button id="submitNewClass" type="button" class="btn btn-primary">Submit new Class</button>
+            <button id="cancelNewClass" type="button" class="btn btn-primary">Cancel</button>
+          </div>
+
+          <div style="margin-top: 10px; margin-left: 25px;">
+            <div>
+              <strong>Class Name: </strong>
+              <input type="text" class="form-control" id="classNameAdd"><br>
+            </div>
+
+            <div style="margin-top: 10px;">
+              <strong>Target Score: </strong>
+              <input type="number" class="form-control" id="targetScoreAdd">
+              <p style="display: inline-block">%</p><br>
+            </div>
+
+            <i id="classNameAddWarning" style="display: none; color: red;">Please enter the class name.</i>
+            <i id="targetScoreAddWarning" style="display: none; color: red;">Please enter your desired target score.</i>
+            <i id="newClassAddWarning" style="display: none; color: red;">You haven't completed all the fields. Please fill in all the information.</i>
+
+            <i id="weightInfo" style="margin-top: 10px;">
+              <strong>Weight: </strong> the weight of the assignment of the class. E.g. 10(%) <br>
+              <strong>Grade: </strong> 23/25 or 90/100
+            </i>
+          </div>
+
+          <div class="add-table-container" style="margin-top: 10px;">
+            <table class="table" style="margin-bottom: 0">
+              <thead class="thead-dark" style="font-size: 12px; text-align: center;">
+                  <tr>
+                    <th style="width: 120px" scope="col">Assignment</th>
+                    <th style="width: 80px" scope="col">Weight</th>
+                    <th style="width: 90px" scope="col">Grade Got</th>
+                    <th style="width: 100px" scope="col">Delete?</th>
+                  </tr>
+                </thead>
+              <tbody id="addClassBodyContents"></tbody>
+            </table>
+            <img id="addItemAddClass" src="images/add.svg" style="margin-left: 20px;">
           </div>
         </div>
+        
+        <div id="classContents" style="display: none; width: 380px;">
+          <div style="margin-top: 10px; margin-left: 20px;">
+            <button id="editClassButton" type="button" class="btn btn-primary">Edit this class</button>
+            <button id="deleteClassButton" type="button" class="btn btn-primary">Delete this class</button>
+          </div>
 
-        <table id="classContents" class="table" style="display: none">
-            <thead class="thead-dark">
-                <tr>
-                  <th style="width: 140px" scope="col">Assignment name</th>
-                  <th style="width: 80px" scope="col">Weight</th>
-                  <th style="width: 90px" scope="col">Grade Got</th>
-                  <th style="width: 100px" scope="col">Grade Need</th>
-                </tr>
-              </thead>
-              <tbody id="classsBodyContents"></tbody>
-        </table>
+          <div style="margin-top: 10px; margin-left: 25px;">
+            <div style="float: left;">
+              <strong>Current Score: </strong>
+              <p id="currentScore"></p>
+            </div>
+
+            <div style="float: right;">
+              <strong>Target Score: </strong>
+              <p id="targetScoreText"></p>
+            </div>
+          </div>
+
+          <table class="table" style="max-height: 365px;">
+              <thead class="thead-dark" style="font-size: 12px; text-align: center;">
+                  <tr>
+                    <th style="width: 120px" scope="col">Assignment</th>
+                    <th style="width: 80px" scope="col">Weight</th>
+                    <th style="width: 90px" scope="col">Grade Got</th>
+                    <th style="width: 100px" scope="col">Grade Need</th>
+                  </tr>
+                </thead>
+                <tbody id="classBodyContents"></tbody>
+          </table>
+        </div>
+
+        <div id="edit-class-container" style="display: none;">
+          <div style="margin-top: 10px; margin-left: 20px;">
+            <button id="saveChangesButton" type="button" class="btn btn-primary">Save changes</button>
+            <button id="cancelChangesButton" type="button" class="btn btn-primary">Cancel</button>
+          </div>
+
+          <div style="margin-top: 10px; margin-left: 25px;">
+            <div>
+              <strong>Class Name: </strong>
+              <input type="text" class="form-control" id="classNameChange"><br>
+            </div>
+
+            <div style="margin-top: 10px;">
+              <strong>Target Score: </strong>
+              <input type="number" class="form-control" id="targetScoreChange">
+              <p style="display: inline-block">%</p><br>
+            </div>
+          </div>
+
+          <div class="edit-table-container">
+            <table class="table" style="margin-bottom: 0">
+              <thead class="thead-dark" style="font-size: 12px; text-align: center;">
+                  <tr>
+                    <th style="width: 120px" scope="col">Assignment</th>
+                    <th style="width: 80px" scope="col">Weight</th>
+                    <th style="width: 90px" scope="col">Grade Got</th>
+                    <th style="width: 100px" scope="col">Delete?</th>
+                  </tr>
+                </thead>
+              <tbody id="editClassContents"></tbody>
+            </table>
+            <img id="addItemChanges" src="images/add.svg" style="margin-left: 20px;">
+          </div>
+          
+        </div>
+        
       </div>
     </div>
 
