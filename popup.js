@@ -313,15 +313,8 @@ function classCLicked(key)
       sumScore += parseInt(usersData[key][i]['numerator']) / parseInt(usersData[key][i]['denumerator']) * parseInt(usersData[key][i]['weight']);
     }
   }
-  console.log({
-    weightGot: weightGot,
-    weightNeed: weightNeed,
-    sumScore: sumScore,
-    targetScore: targetScore
-  })
   targetScore = (weightGot + weightNeed) / 100 * targetScore;
   targetScore = (targetScore - sumScore) / weightNeed;
-  console.log(targetScore);
 
   for (var i=0; i< size-1; i++)
   {

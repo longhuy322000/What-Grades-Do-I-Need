@@ -6,6 +6,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Google Sign In in Chrome Extensions Example</title>
 
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
   <script src="https://www.gstatic.com/firebasejs/5.7.1/firebase.js"></script> 
   <script type='text/javascript' src='config.js'></script>
 
@@ -42,21 +43,6 @@
 
       <div id="contents">
         <div id="addNewClassContents" style="display: none; margin-top: 20px;">
-          <!-- <h6>Add new Class</h6>
-          <label>Class Name: </label><input type="text" class="form-control" id="className"><br>
-          <button id="addNewItem" style="margin-top: 10px;" type="button" class="btn btn-primary">Add new item to the syllabus</button>
-          <i id="weightInfo" style="display: none; margin-top: 10px;">
-            <strong>Weight: </strong> the weight of the assignment of the class. E.g. 10(%) <br>
-            <strong>Grade: </strong> 23/25 or 90/100
-          </i>
-          <div id="items-new-class"></div>
-          <i id="classNameWarning" style="display: none; color: red;">Please enter the class name.</i>
-          <i id="newClassWarning" style="display: none; color: red;">You haven't completed all the fields. Please fill in all the information.</i>
-          <div id="newClassButtonContainers" style="display: none; margin-top: 10px;">
-            <button id="submitNewClass" type="button" class="btn btn-primary">Submit</button>
-            <button id="cancelNewClass" type="button" class="btn btn-primary">Cancel</button>
-          </div>  -->
-
           <div style="margin-top: 10px; margin-left: 20px;">
             <button id="submitNewClass" type="button" class="btn btn-primary">Submit new Class</button>
             <button id="cancelNewClass" type="button" class="btn btn-primary">Cancel</button>
@@ -80,7 +66,7 @@
 
             <i id="weightInfo" style="margin-top: 10px;">
               <strong>Weight: </strong> the weight of the assignment of the class. E.g. 10(%) <br>
-              <strong>Grade: </strong> 23/25 or 90/100
+              <strong>Grade: </strong> 23/25 or 90/100 (leave empty if you don't know your score)
             </i>
           </div>
 
