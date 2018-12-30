@@ -1,8 +1,34 @@
 var uid, itemNums = 0;
 var usersData, clickedClass;
 
-function initApp() {
+function getUserData()
+{
+  db.collection("users").doc(uid)
+    .onSnapshot(function(doc) {
+      usersData = doc.data();
+      var classList = document.getElementById('listClassMenu');
+      clearElement('listClassMenu');
+      for (var key in usersData)
+      {
+        var li = document.createElement('li');
+        var button = document.createElement('button');
+        button.innerHTML = key;
+        button.className = "classButton";
+        button.id = key;
+        button.onclick = (function(key){
+          return function(){
+            setContents('classContents');
+            classCLicked(key);
+          }
+        })(key);
+        li.append(button);
+        classList.append(li);
+      }
+    resetView();
+    });
+}
 
+function initApp() {
   firebase.auth().onAuthStateChanged(function(user)
   {
     if (user)
@@ -15,40 +41,16 @@ function initApp() {
         if (doc.exists)
         {
           // display class list
-          db.collection("users").doc(uid)
-            .onSnapshot(function(doc) {
-              usersData = doc.data();
-              var classList = document.getElementById('listClassMenu');
-              clearElement('listClassMenu');
-              for (var key in usersData)
-              {
-                var li = document.createElement('li');
-                var button = document.createElement('button');
-                button.innerHTML = key;
-                button.className = "classButton";
-                button.id = key;
-                button.onclick = (function(key){
-                  return function(){
-                    setContents('classContents');
-                    classCLicked(key);
-                  }
-                })(key);
-                li.append(button);
-                classList.append(li);
-              }
-              resetView();
-            });
+          getUserData();
         }
         else
         {
           // can't find users in the database
           console.log("No such document!");
           db.collection("users").doc(uid).set({});
+          getUserData();
         }
-      }).catch(function(error) {
-        console.log("Error getting document:", error);
       });
-
       document.getElementById('login-container').style.display = 'none';
       document.getElementById('contents-container').style.display = 'block';
     }
@@ -64,34 +66,10 @@ function initApp() {
   document.getElementById('loginButton').addEventListener('click', startSignIn, false);
 }
 
-function startAuth(interactive) {
-  // Request an OAuth token from the Chrome Identity API.
-  chrome.identity.getAuthToken({interactive: !!interactive}, function(token) {
-    if (chrome.runtime.lastError && !interactive) {
-      console.log('It was not possible to get a token programmatically.');
-    } else if(chrome.runtime.lastError) {
-      console.error(chrome.runtime.lastError);
-    } else if (token) {
-      // Authorize Firebase with the OAuth Access Token.
-      var credential = firebase.auth.GoogleAuthProvider.credential(null, token);
-      firebase.auth().signInAndRetrieveDataWithCredential(credential).catch(function(error) {
-        // The OAuth token might have been invalidated. Lets' remove it from cache.
-        if (error.code === 'auth/invalid-credential') {
-          chrome.identity.removeCachedAuthToken({token: token}, function() {
-            startAuth(interactive);
-          });
-        }
-      });
-    } else {
-      console.error('The OAuth Token was null');
-    }
-  });
-}
-
 // Starts the sign-in process.
 function startSignIn() {
   document.getElementById('loginButton').disabled = true;
-  startAuth(true);
+  chrome.runtime.sendMessage({message: 'googleSignIn'});
 }
 
 window.onload = function() {
@@ -123,12 +101,14 @@ function setContents(content)
 // reset view
 function resetView()
 {
+  console.log(usersData);
   if (Object.keys(usersData).length === 0 && usersData.constructor === Object)
   {
     setContents('addNewClassContents');
+    clearElement('addClassBodyContents');
+    addEmptyItemToTable('addClassBodyContents', "Add");
     return;
   }
-
   setContents('classContents');
 
   var first_element = Object.keys(usersData)[0];
@@ -158,7 +138,8 @@ function addEmptyItemToTable(tableName, choice)
   inputWeight.value = "";
   inputWeight.id = "weight" + choice + i;
   inputWeight.className = "form-control tableInput";
-  inputWeight.type = "text";
+  inputWeight.type = "number";
+  inputWeight.style.textAlign = "center";
   thWeight.append(inputWeight);
 
   var thGradeGot = document.createElement('td');
@@ -259,12 +240,15 @@ document.getElementById('submitNewClass').onclick = function ()
   var data = [];
   for (var i = 0, row; row = table.rows[i]; i++)
   {
-    data.push({
-      name: document.getElementById('itemNameAdd' + i).value,
-      weight: document.getElementById('weightAdd' + i).value,
-      numerator: document.getElementById('numeratorAdd' + i).value,
-      denumerator: document.getElementById('denumeratorAdd' + i).value
-    });
+    if (row.style.display != "none")
+    {
+      data.push({
+        name: document.getElementById('itemNameAdd' + i).value,
+        weight: document.getElementById('weightAdd' + i).value,
+        numerator: document.getElementById('numeratorAdd' + i).value,
+        denumerator: document.getElementById('denumeratorAdd' + i).value
+      });
+    }
   }
   data.push({target_score: document.getElementById('targetScoreAdd').value});
 
@@ -289,9 +273,11 @@ function classCLicked(key)
   {
     document.getElementById(name).style.backgroundColor = "transparent";
     document.getElementById(name).style.color = "black";
+    document.getElementById(name).style.fontWeight = "normal";
   }
   document.getElementById(key).style.backgroundColor = "#727272";
   document.getElementById(key).style.color = "white";
+  document.getElementById(key).style.fontWeight = "bold";
 
   clearElement('classBodyContents');
   var table = document.getElementById('classBodyContents');
@@ -299,18 +285,18 @@ function classCLicked(key)
   var size = usersData[key].length;
   var weightNeed = 0;
   var weightGot = 0;
-  var targetScore = parseInt(usersData[key][size-1]['target_score']);
+  var targetScore = parseFloat(usersData[key][size-1]['target_score']);
   var sumScore = 0;
   for (var i=0; i< size-1; i++)
   {
     if (usersData[key][i]['numerator'] == '' || usersData[key][i]['denumerator'] == '')
     {
-      weightNeed += parseInt(usersData[key][i]['weight']);
+      weightNeed += parseFloat(usersData[key][i]['weight']);
     }
     else
     {
-      weightGot += parseInt(usersData[key][i]['weight']);
-      sumScore += parseInt(usersData[key][i]['numerator']) / parseInt(usersData[key][i]['denumerator']) * parseInt(usersData[key][i]['weight']);
+      weightGot += parseFloat(usersData[key][i]['weight']);
+      sumScore += parseFloat(usersData[key][i]['numerator']) / parseFloat(usersData[key][i]['denumerator']) * parseFloat(usersData[key][i]['weight']);
     }
   }
   targetScore = (weightGot + weightNeed) / 100 * targetScore;
@@ -323,8 +309,11 @@ function classCLicked(key)
     thName.innerHTML = usersData[key][i]['name'];
     var thWeight = document.createElement('td');
     thWeight.innerHTML = usersData[key][i]['weight'];
+    thWeight.style.textAlign = "center";
     var thGradeGot = document.createElement('td');
+    thGradeGot.style.textAlign = "center";
     var thGradeNeed = document.createElement('td');
+    thGradeNeed.style.textAlign = "center";
     if (usersData[key][i]['numerator'] == '' || usersData[key][i]['denumerator'] == '')
     {
       thGradeGot.innerHTML = "";
@@ -376,7 +365,8 @@ document.getElementById('editClassButton').onclick = function()
     inputWeight.value = usersData[key][i]['weight'];
     inputWeight.id = "weightChange" + i;
     inputWeight.className = "form-control tableInput";
-    inputWeight.type = "text";
+    inputWeight.type = "number";
+    inputWeight.style.textAlign = "center";
     thWeight.append(inputWeight);
 
     var thGradeGot = document.createElement('td');
