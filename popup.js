@@ -95,6 +95,7 @@ function setContents(content)
   document.getElementById('addNewClassContents').style.display = "none";
   document.getElementById('classContents').style.display = "none";
   document.getElementById('edit-class-container').style.display = "none";
+  document.getElementById("edit-assignments-container").style.display = "none";
   document.getElementById(content).style.display = "block";
 }
 
@@ -265,6 +266,11 @@ document.getElementById('cancelNewClass').onclick = function ()
   resetView();
 }
 
+function editAssignments(key, index)
+{
+  setContents("edit-assignments-container");
+}
+
 // User click on class
 function classCLicked(key)
 {
@@ -306,7 +312,15 @@ function classCLicked(key)
   {
     var tr = document.createElement('tr');
     var thName = document.createElement('td');
-    thName.innerHTML = usersData[key][i]['name'];
+    var thNameButton = document.createElement('button');
+    thNameButton.innerHTML = usersData[key][i]['name'];
+    thNameButton.className = "btn btn-link";
+    thNameButton.onclick = (function(i) {
+      return function(){
+        editAssignments(key, i);
+      }
+    })(i);
+    thName.append(thNameButton);
     var thWeight = document.createElement('td');
     thWeight.innerHTML = usersData[key][i]['weight'];
     thWeight.style.textAlign = "center";
