@@ -56,7 +56,7 @@ input {
     font-family: 'Gloria Hallelujah', cursive;
 }
 
-#list-class {
+#list-class-container {
     background-color: #f1f1f1;
     height: 472px;
     width: 200px;
@@ -68,7 +68,7 @@ input {
     width: 420px;
 }
 
-#list-class ul {
+#list-class-container ul {
     list-style-type: none;
     margin: 0;
     padding: 0;
@@ -190,4 +190,19 @@ th {
     max-height: 280px;
     display: inline-block;
     overflow-y: scroll;
+}
+
+.view-table-container {
+    max-height: 380px;
+    display: inline-block;
+    overflow-y: scroll;
+}
+
+::-webkit-scrollbar {
+    width: 0px;  /* Remove scrollbar space */
+    background: transparent;  /* Optional: just make scrollbar invisible */
+}
+/* Optional: show position indicator in red */
+::-webkit-scrollbar-thumb {
+    background: #FF0000;
 }

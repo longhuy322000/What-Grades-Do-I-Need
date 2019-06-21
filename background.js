@@ -8,7 +8,6 @@ chrome.runtime.onMessage.addListener( function(request, sender, sendResponse) {
         firebase.auth().signInWithPopup(provider).then(function(result) {
             var token = result.credential.accessToken;
             var user = result.user;
-            console.log(user);
             chrome.runtime.sendMessage({login: user.uid});
         }).catch(function(error) {
             console.log(error);

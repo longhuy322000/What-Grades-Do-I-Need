@@ -37,7 +37,7 @@
     </div>
   
     <div id="body-container">
-      <div id="list-class">
+      <div id="list-class-container">
         <ul id="listClassMenu"></ul>
       </div>
 
@@ -104,7 +104,8 @@
             </div>
           </div>
 
-          <table class="table" style="max-height: 365px;">
+          <div class="view-table-container">
+            <table class="table" style="overflow-y: scroll; padding-right: 17px; box-sizing: content-box;">
               <thead class="thead-dark" style="font-size: 12px; text-align: center;">
                   <tr>
                     <th style="width: 120px" scope="col">Assignment</th>
@@ -115,6 +116,7 @@
                 </thead>
                 <tbody id="classBodyContents"></tbody>
           </table>
+          </div>
         </div>
 
         <div id="edit-class-container" style="display: none;">
@@ -183,4 +185,8 @@
 </body>
 </html>
 
+<script src="authentication.js"></script>
 <script src="popup.js"></script>
+<script src="helpers.js"></script>
+<script src="edit-class.js"></script>
+<script src="new-class.js"></script>
